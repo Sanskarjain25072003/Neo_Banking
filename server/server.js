@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/neobank");
+mongoose.connect(process.env.MONGODB_URI)
 
 mongoose.connection.on("connected", () => {
   console.log("Connected to MongoDB");
@@ -32,6 +32,9 @@ app.use("/api/banking", bankingRoutes);
 app.get("/", (req, res) => {
   res.json({ message: "NeoBank API is running!" });
 });
+app.get("/health", (req, res) => {
+  res.json({ status: "OK", timestamp: new Date() });
+}
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
